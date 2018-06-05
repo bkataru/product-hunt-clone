@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+{% if error %}
+    {{ error }}
+    <br>
+    <br>
+{% endif %}
+
+
+<h1>Create a new product</h1>
+<form action='{% url "create" %}' enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    Title:
+    <br>
+    <input type="text" name="title">
+    <br>
+    Body:
+    <br>
+    <textarea name="body" id="body" cols="70" rows="10"></textarea>
+    <br>
+    URL:
+    <br>
+    <input type="url" name="url">
+    <br>
+    Icon:
+    <br>
+    <input type="file" name="icon">
+    <br>
+    Image:
+    <br>
+    <input type="file" name="image">
+    <br>
+
+    <br>
+    <input type="submit" value="Add product" class="btn btn-primary">
+</form>
+{% endblock %}

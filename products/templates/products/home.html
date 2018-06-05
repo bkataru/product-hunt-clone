@@ -1,5 +1,40 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-home
+
+<div class="container">
+    {% for product in products.all %}
+    <div class="row pt-3">
+        <div class="col-2">
+            <img src="{{ product.icon.url }}" class="img-fluid" alt="">
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <a href="{% url 'detail' product.id %}"><h2>{{ product.title }}</h2></a>
+            </div>
+            <div class="row">
+                <p>{{ product.summary }}</p>
+            </div>
+        </div>
+        <div class="col-4">
+            {% if user.username == product.hunter.username %}
+                <button class="btn btn-primary btn-lg btn-block">
+                    Upvote {{ product.votes_total }}
+                </button>
+            {% else %}
+                <a href="javascript:document.getElementById('upvote/{{ product.id }}').submit()">
+                    <button class="btn btn-primary btn-lg btn-block"><span class="oi oi-caret-top"></span>
+                        Upvote {{ product.votes_total }}
+                    </button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <form id="upvote/{{ product.id }}" action="{% url 'upvote' product.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden">
+    </form>
+    {% endfor %}
+</div>
+
 {% endblock %}
